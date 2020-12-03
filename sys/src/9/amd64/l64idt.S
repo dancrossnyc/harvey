@@ -3,6 +3,7 @@
  */
 #include "amd64.h"
 
+.text
 .code64
 
 	/* Interrupts.  * Let's just talk about hardware
@@ -87,7 +88,7 @@ _intrcommon:
 	SWAPGS
 
 _intrnested:
-	incq ire
+	incq ire(%rip)
 	PUSHQ	%r15
 	PUSHQ	%r14
 	PUSHQ	%r13
@@ -114,7 +115,7 @@ _intrnested:
 	CALL	_trap
 .globl _intrr
 _intrr:
-	incq	irxe
+	incq	irxe(%rip)
 	POPQ	%rax
 	POPQ	%rbx
 	POPQ	%rCX
@@ -141,7 +142,7 @@ _iretnested:
 	// The %rax you pushed (error code)
 	// EIP from the vector table.
 	ADDQ	$16, %rsp
-	incq irx
+	incq irx(%rip)
 	iretq
 
 .globl idthandlers

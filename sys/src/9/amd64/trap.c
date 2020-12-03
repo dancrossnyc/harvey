@@ -440,7 +440,7 @@ trap(Ureg* ureg)
 	uint64_t gsbase = rdmsr(GSbase);
 	//if (sce > scx) iprint("====================");
 	lastvno = vno;
-	if (gsbase < 1ULL<<63)
+	if (gsbase < KZERO)
 		die("bogus gsbase");
 	Proc *up = externup();
 	char buf[ERRMAX];
@@ -607,7 +607,6 @@ void
 dumpregs(Ureg* ureg)
 {
 die("dumpregs");
-
 	dumpgpr(ureg);
 
 	/*
